@@ -79,6 +79,7 @@ jobs:
         port: ${{ env.REMOTE_PORT }}
         key: ${{ env.DEPLOY_KEY }}
         script: |
+          #!/bin/bash
           ##
           ## Setup Pipeline Compose Environment
           ##
