@@ -92,10 +92,9 @@ jobs:
           ##
           ## Setup Pipeline Compose Environment
           ##
-          if [[ "${GITHUB_BRANCH_NAME}" =~ ^(develop)$ ]]; then
+          if [[ "${BRANCH_NAME}" =~ ^(develop)$ ]]; then
             PIPELINE_COMPOSE_ENVIRONMENT=dev
-            echo $PIPELINE_COMPOSE_ENVIRONMENT
-          elif  [[ "${GITHUB_BRANCH_NAME}" =~ ^(main)$ ]]; then
+          elif  [[ "${BRANCH_NAME}" =~ ^(main)$ ]]; then
             PIPELINE_COMPOSE_ENVIRONMENT=production
           fi
           ##
