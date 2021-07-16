@@ -82,7 +82,7 @@ jobs:
           ##
           ## PASS ENV CONFIGURE
           ##
-          echo 'export DOCKER_ENV=$(echo ${{ env.DEV_DOCKER_ENV_SIMPLE_KEY }})'
+          export SIMPLE_KEY=${{ env.DEV_DOCKER_ENV_SIMPLE_KEY }}
 #          ##
 #          ## Setup Pipeline Compose Environment
 #          ##
