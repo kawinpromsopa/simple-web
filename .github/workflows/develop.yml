@@ -1,4 +1,4 @@
-name: Dev - rt-web's Workflow.
+name: Dev - simple-web's Workflow.
 
 on:
   push:
@@ -46,9 +46,7 @@ jobs:
   #        docker push $AWS_ECR_REGISTRY/$AWS_ECR_REPOSITORY:$DOCKER_IMAGE_TAG_ENV-$DOCKER_IMAGE_TAG_ENV_COMMIT 
   #
   deploy_application:
-    needs: build_n_push 
     runs-on: ubuntu-latest
-
     steps:
     - name: Setup environment variables 
       run: |
