@@ -82,7 +82,7 @@ jobs:
           ##
           ## PASS ENV CONFIGURE
           ##
-          GITHUB_BRANCH_NAME=${{ env.GITHUB_BRANCH_NAME }}
+          GITHUB_BRANCH_NAME=${{ env.GITHUB_BRANCH }}
           ##
           ## Setup Pipeline Compose Environment
           ##
