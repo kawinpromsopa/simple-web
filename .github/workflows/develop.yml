@@ -74,7 +74,7 @@ jobs:
         ##
         ## DOCKER ENV
         ##
-        DEV_DOCKER_ENV_SIMPLE_KEY: ${{ secret.DEV_DOCKER_ENV_SIMPLE_KEY }}
+        DEV_DOCKER_ENV_SIMPLE_KEY: ${{ secrets.DEV_DOCKER_ENV_SIMPLE_KEY }}
       with:
         host: ${{ env.REMOTE_HOST }}
         username: ${{ env.REMOTE_USER }}
