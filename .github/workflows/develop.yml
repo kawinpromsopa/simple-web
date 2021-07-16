@@ -90,12 +90,16 @@ jobs:
           AWS_ACCOUNT_ID=${{ env.AWS_ACCOUNT_ID }}
           AWS_REGION=${{ env.AWS_REGION }}
           ##
+          ## PASS DOCKER ENV
+          ##
+          DEV_DOCKER_ENV_SIMPLE_KEY=${{ env.DEV_DOCKER_ENV_SIMPLE_KEY }}
+          ##
           ## Setup Pipeline Compose Environment
           ##
           if [[ "${BRANCH_NAME}" =~ ^(develop)$ ]]; then
-            PIPELINE_COMPOSE_ENVIRONMENT=dev
+            PIPELINE_COMPOSE_ENVIRONMENT=DEV
           elif  [[ "${BRANCH_NAME}" =~ ^(main)$ ]]; then
-            PIPELINE_COMPOSE_ENVIRONMENT=production
+            PIPELINE_COMPOSE_ENVIRONMENT=PROD
           fi
           ##
           ## Setup AWS ECR authentication
@@ -115,6 +119,9 @@ jobs:
             docker-compose -f "${PIPELINE_COMPOSE_ENVIRONMENT}"-simple-web/docker-compose.yml pull
             echo "Docker Image Latest Version Download Success."
           
+            echo "Configure Compose Environment Variables..."
+            printenv | grep "$ENV" | grep "DOCKER_ENV" | cut -f4-30 -d"_" >> .env
+
             echo "Application Deploying..."
             docker-compose -f "${PIPELINE_COMPOSE_ENVIRONMENT}"-simple-web/docker-compose.yml up -d
           
