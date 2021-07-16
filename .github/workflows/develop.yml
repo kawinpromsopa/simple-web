@@ -79,7 +79,6 @@ jobs:
         port: ${{ env.REMOTE_PORT }}
         key: ${{ env.DEPLOY_KEY }}
         script: |
-          !#bin/bash
           set -e
           ##
           ## PASS ENVIRONMENT VARIABLE CONFIGURES
@@ -92,7 +91,7 @@ jobs:
           ##
           ## PASS DOCKER ENV
           ##
-          DEV_DOCKER_ENV_SIMPLE_KEY=${{ env.DEV_DOCKER_ENV_SIMPLE_KEY }}
+          DEV_DOCKER_ENV_SIMPLE_KEY=${{ env.DEV_DOCKER_ENV_SIMPLE_KEY }} >> ~/.bashrc
           ##
           ## Setup Pipeline Compose Environment
           ##
