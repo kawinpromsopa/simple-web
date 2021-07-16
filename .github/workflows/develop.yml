@@ -91,9 +91,9 @@ jobs:
           ## Setup Pipeline Compose Environment
           ##
           if [[ "${GITHUB_BRANCH_NAME}" =~ ^(develop)$ ]]; then
-            export PIPELINE_COMPOSE_ENVIRONMENT=dev
+            PIPELINE_COMPOSE_ENVIRONMENT=dev
           elif  [[ "${GITHUB_BRANCH_NAME}" =~ ^(main)$ ]]; then
-            export PIPELINE_COMPOSE_ENVIRONMENT=production
+            PIPELINE_COMPOSE_ENVIRONMENT=production
           fi
           ##
           ## Setup AWS ECR authentication
