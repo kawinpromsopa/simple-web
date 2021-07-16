@@ -120,7 +120,7 @@ jobs:
             echo "Docker Image Latest Version Download Success."
           
             echo "Configure Compose Environment Variables..."
-            printenv | grep "$ENV" | grep "DOCKER_ENV" | cut -f4-30 -d"_" >> .env
+            printenv | grep "$PIPELINE_COMPOSE_ENVIRONMENT" | grep "DOCKER_ENV" | cut -f4-30 -d"_" >> .env
 
             echo "Application Deploying..."
             docker-compose -f "${PIPELINE_COMPOSE_ENVIRONMENT}"-simple-web/docker-compose.yml up -d
