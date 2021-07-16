@@ -91,7 +91,8 @@ jobs:
           ##
           ## PASS DOCKER ENV
           ##
-          DEV_DOCKER_ENV_SIMPLE_KEY=${{ env.DEV_DOCKER_ENV_SIMPLE_KEY }} >> ~/.bashrc
+          DEV_DOCKER_ENV_SIMPLE_KEY=${{ env.DEV_DOCKER_ENV_SIMPLE_KEY }}
+          echo $DEV_DOCKER_ENV_SIMPLE_KEY >> .env
           ##
           ## Setup Pipeline Compose Environment
           ##
@@ -118,8 +119,8 @@ jobs:
             docker-compose -f "${PIPELINE_COMPOSE_ENVIRONMENT}"-simple-web/docker-compose.yml pull
             echo "Docker Image Latest Version Download Success."
           
-            echo "Configure Compose Environment Variables..."
-            printenv | grep "$PIPELINE_COMPOSE_ENVIRONMENT" | grep "DOCKER_ENV" | cut -f4-30 -d"_" >> .env
+            #echo "Configure Compose Environment Variables..."
+            #printenv  | grep "$PIPELINE_COMPOSE_ENVIRONMENT" | grep "DOCKER_ENV" | cut -f4-30 -d"_" >> .env
 
             echo "Application Deploying..."
             docker-compose -f "${PIPELINE_COMPOSE_ENVIRONMENT}"-simple-web/docker-compose.yml up -d
