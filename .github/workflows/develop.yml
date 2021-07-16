@@ -79,19 +79,22 @@ jobs:
         port: ${{ env.REMOTE_PORT }}
         key: ${{ env.DEPLOY_KEY }}
         script: |
-          #!/bin/bash
+          ##
+          ## PASS ENV CONFIGURE
+          ##
+          
           ##
           ## Setup Pipeline Compose Environment
           ##
-          if [[ ${{ env.GITHUB_BRANCH_NAME }} =~ ^(develop)$ ]]; then
+          if [[ "${GITHUB_BRANCH_NAME}" =~ ^(develop)$ ]]; then
             export PIPELINE_COMPOSE_ENVIRONMENT=dev
-          elif  [[ ${{ env.GITHUB_BRANCH_NAME }} =~ ^(main)$ ]]; then
+          elif  [[ "${GITHUB_BRANCH_NAME}" =~ ^(main)$ ]]; then
             export PIPELINE_COMPOSE_ENVIRONMENT=production
           fi
           ##
           ## Setup AWS ECR authentication
           ##
-          aws ecr get-login-password --region ${{ env.GITHUB_AWS_REGION }} | docker login --username AWS --password-stdin ${{ env.GITHUB_AWS_ACCOUNT_ID }}.dkr.ecr.ap-southeast-1.amazonaws.com
+          aws ecr get-login-password --region "${GITHUB_AWS_REGION}" | docker login --username AWS --password-stdin "${GITHUB_AWS_ACCOUNT_ID}".dkr.ecr.ap-southeast-1.amazonaws.com
           if [[ "$?" -eq 0 ]]; then
             echo "AWS Elastic Container Registry Authenticated."
           else
@@ -101,7 +104,7 @@ jobs:
           ##
           ## Deploy Application
           ##
-          if [[ ${{ env.GITHUB_ACTIONS }} == true ]]; then
+          if [[ "${GITHUB_ACTIONS}" == true ]]; then
             echo "Docker Image Latest Version Downloading..."
             docker-compose -f "${PIPELINE_COMPOSE_ENVIRONMENT}"-simple-web/docker-compose.yml pull
             echo "Docker Image Latest Version Download Success."
@@ -111,9 +114,9 @@ jobs:
           
             if [[ "$?" -eq 0 ]]; then
               echo "Application Deployed.."
-              rm -rf ${{ env.GITHUB_REPOSITORY_NAME }}
+              rm -rf "${GITHUB_REPOSITORY_NAME}"
             else
               echo "Application FAILED."
-              rm -rf ${{ env.GITHUB_REPOSITORY_NAME }}
+              rm -rf "${GITHUB_REPOSITORY_NAME}"
             fi
           fi
