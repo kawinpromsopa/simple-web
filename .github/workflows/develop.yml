@@ -85,8 +85,8 @@ jobs:
           REPOSITORY_NAME=${{ env.GITHUB_REPOSITORY_NAME }}
           BRANCH_NAME=${{ env.GITHUB_BRANCH }}
           ACTIONS=${{ env.GITHUB_ACTIONS }}
-          AWS_ACCOUNT_ID=${{ env.GITHUB_AWS_ACCOUNT_ID }}
-          AWS_REGION=${{ env.GITHUB_AWS_REGION }}
+          AWS_ACCOUNT_ID=${{ env.AWS_ACCOUNT_ID }}
+          AWS_REGION=${{ env.AWS_REGION }}
           ##
           ## Setup Pipeline Compose Environment
           ##
