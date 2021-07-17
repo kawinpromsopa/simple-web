@@ -1,7 +1,7 @@
 ## Table of Contents
 
 * [Repository Secret](#repository-secret)
-    * [Add or update repository secret)(https://github.com/kawinpromsopa/simple-web/tree/develop/.github#1-add-and-update-repository-secret)
+    * [Add or update repository secret](#add-or-update-repository-secret)
 * [Github Workflows](#docker-env)
     * [Add or update docker env](#add-or-update-docker-env)
     
