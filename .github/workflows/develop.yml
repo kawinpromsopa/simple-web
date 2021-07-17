@@ -89,18 +89,18 @@ jobs:
           AWS_ACCOUNT_ID=${{ env.AWS_ACCOUNT_ID }}
           AWS_REGION=${{ env.AWS_REGION }}
           ##
-          ## PASS DOCKER ENV
-          ##
-          DEV_DOCKER_ENV_SIMPLE_KEY=${{ env.DEV_DOCKER_ENV_SIMPLE_KEY }}
-          echo $DEV_DOCKER_ENV_SIMPLE_KEY >> .env
-          ##
           ## Setup Pipeline Compose Environment
           ##
           if [[ "${BRANCH_NAME}" =~ ^(develop)$ ]]; then
-            PIPELINE_COMPOSE_ENVIRONMENT=DEV
+            PIPELINE_COMPOSE_ENVIRONMENT=dev
           elif  [[ "${BRANCH_NAME}" =~ ^(main)$ ]]; then
-            PIPELINE_COMPOSE_ENVIRONMENT=PROD
+            PIPELINE_COMPOSE_ENVIRONMENT=prod
           fi
+          ##
+          ## PASS DOCKER ENV
+          ##
+          DEV_DOCKER_ENV_SIMPLE_KEY=${{ env.DEV_DOCKER_ENV_SIMPLE_KEY }}
+          echo $DEV_DOCKER_ENV_SIMPLE_KEY >> /home/ubuntu/$PIPELINE_COMPOSE_ENVIRONMENT-$REPOSITORY_NAME/.env
           ##
           ## Setup AWS ECR authentication
           ##
