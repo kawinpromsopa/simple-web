@@ -74,7 +74,7 @@ jobs:
         ## PIPELNES DOCKER ENV
         ##
         DOCKER_ENV_SIMPLE_KEY_1: ${{ secrets.DEV_DOCKER_ENV_SIMPLE_KEY_1 }}
-        DOCKER_ENV_SIMPLE_KEY_1: ${{ secrets.DEV_DOCKER_ENV_SIMPLE_KEY_1 }}
+        DOCKER_ENV_SIMPLE_KEY_2: ${{ secrets.DEV_DOCKER_ENV_SIMPLE_KEY_2 }}
       with:
         host: ${{ env.REMOTE_HOST }}
         username: ${{ env.REMOTE_USER }}
