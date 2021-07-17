@@ -73,8 +73,8 @@ jobs:
         ##
         ## PIPELNES DOCKER ENV
         ##
-        DEV_DOCKER_ENV_SIMPLE_KEY: ${{ secrets.DEV_DOCKER_ENV_SIMPLE_KEY }}
-        DEV_DOCKER_ENV_SIMPLE_KEY_1: ${{ secrets.DEV_DOCKER_ENV_SIMPLE_KEY_1 }}
+        DOCKER_ENV_SIMPLE_KEY_1: ${{ secrets.DEV_DOCKER_ENV_SIMPLE_KEY_1 }}
+        DOCKER_ENV_SIMPLE_KEY_1: ${{ secrets.DEV_DOCKER_ENV_SIMPLE_KEY_1 }}
       with:
         host: ${{ env.REMOTE_HOST }}
         username: ${{ env.REMOTE_USER }}
@@ -101,10 +101,10 @@ jobs:
           ##
           ## PASS DOCKER ENV
           ##
-          DEV_DOCKER_ENV_SIMPLE_KEY=${{ env.DEV_DOCKER_ENV_SIMPLE_KEY }}
-          DEV_DOCKER_ENV_SIMPLE_KEY_1=${{ env.DEV_DOCKER_ENV_SIMPLE_KEY_1 }}
-          echo $DEV_DOCKER_ENV_SIMPLE_KEY >> .env
-          echo $DEV_DOCKER_ENV_SIMPLE_KEY_1 >> .env
+          DOCKER_ENV_SIMPLE_KEY_1=${{ env.DOCKER_ENV_SIMPLE_KEY_1 }}
+          DOCKER_ENV_SIMPLE_KEY_2=${{ env.DOCKER_ENV_SIMPLE_KEY_2 }}
+          echo $DOCKER_ENV_SIMPLE_KEY_1 >> .env
+          echo $DOCKER_ENV_SIMPLE_KEY_2 >> .env
           ##
           ## Deploy environment configure
           ##
