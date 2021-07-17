@@ -102,16 +102,16 @@ jobs:
           ## PASS DOCKER ENV
           ##
           DEV_DOCKER_ENV_SIMPLE_KEY=${{ env.DEV_DOCKER_ENV_SIMPLE_KEY }}
-          echo $DEV_DOCKER_ENV_SIMPLE_KEY >> $HOME
+          echo $DEV_DOCKER_ENV_SIMPLE_KEY >> .env
           ##
           ## Deploy environment configure
           ##
-          #          rsync $HOME $PIPELINE_COMPOSE_ENVIRONMENT-$REPOSITORY_NAME/.env
-          #          if [[ "$?" -eq 0 ]]; then
-          #            rm -rf $HOME
-          #          else
-          #            exit 1
-          #          fi
+          rsync .env $PIPELINE_COMPOSE_ENVIRONMENT-$REPOSITORY_NAME/.env
+          if [[ "$?" -eq 0 ]]; then
+            rm -rf .env
+          else
+            exit 1
+          fi
           ##
           ## Setup AWS ECR authentication
           ##
