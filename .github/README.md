@@ -8,7 +8,7 @@
 ### 1). Add and Update Repository Secret
 
 ##### Add new
-- 1). On repository `[Settings]` => `Secrets` => `New repository secret`
+- On repository `[Settings]` => `Secrets` => `New repository secret`
 ```
 # PROD
 Name: PROD_DOCKER_ENV_SIMPLE_KEY
@@ -26,7 +26,7 @@ Value: NEXT_PUBLIC_S3_HOST=s3://simple-s3-url
 ```
 
 ##### Update
-- 1). On repository `[Settings]` => `Secrets` => Choose exist repository secrets => Update => Type new value
+- On repository `[Settings]` => `Secrets` => Choose exist repository secrets => Update => Type new value
 
 **NOTE:** Github can't change the `KEY` of secret name, If you want to change just delete and add new one.
 
