@@ -7,10 +7,15 @@
     
 ### 1). Add and Update Repository Secret
 
-#### Add new
+##### Add new
 - 1). On repository `[Settings]` => `Secrets` => `New repository secret`
 ```
-Name: $ENV_DOCKER_ENV_SIMPLE_KEY
+# PROD
+Name: PROD_DOCKER_ENV_SIMPLE_KEY
+Value: SIMPLE_KEY=simple-value
+
+# DEV
+Name: DEV_DOCKER_ENV_SIMPLE_KEY
 Value: SIMPLE_KEY=simple-value
 ```
 
@@ -20,15 +25,14 @@ Name: DEV_DOCKER_ENV_NEXT_PUBLIC_S3_HOST
 Value: NEXT_PUBLIC_S3_HOST=s3://simple-url
 ```
 
-#### Update
+##### Update
 - 1). On repository `[Settings]` => `Secrets` => Choose exist repository secrets => Update => Type new value
 
-**NOTE: Github can't change the `KEY` of secret name, If you want to change just delete and add new.
+**NOTE: Github can't change the `KEY` of secret name, If you want to change just delete and add new one.
 
+### 2). Add or update docker env
 
-### 2). Add or update docker env into github workflows
-
-#### Add/update file `.github/workflows/$env.yml` into `step: Deploy application on $ENV environment` **Line 59**
+##### Add/update file into `.github/workflows/(develop|main).yml` at `step: Deploy application on $ENV environment` **Line 59**
 ```
 ##
 ## PIPELNES DOCKER ENV
