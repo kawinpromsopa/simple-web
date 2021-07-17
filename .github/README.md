@@ -1,12 +1,10 @@
 ## Table of Contents
 
 * [Repository Secret](#repository-secret)
-    * [Add or update repository secret](#add-or-update-repository-secret)
-* [Docker ENV](#docker-env)
-    * [Add or update docker env into github workflows](#add-or-update-docker-env-into-github-workflows)
+    * [Add or update repository secret)(https://github.com/kawinpromsopa/simple-web/tree/develop/.github#1-add-and-update-repository-secret)
+* [Github Workflows](#docker-env)
+    * [Add or update docker env](#add-or-update-docker-env)
     
-
-
 ### 1). Add and Update Repository Secret
 
 #### Add new
