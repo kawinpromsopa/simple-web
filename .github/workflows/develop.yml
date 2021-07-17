@@ -107,12 +107,12 @@ jobs:
           ##
           ## Deploy environment configure
           ##
-          rsync $HOME $PIPELINE_COMPOSE_ENVIRONMENT-$REPOSITORY_NAME/.env
-          if [[ "$?" -eq 0 ]]; then
-            rm -rf $HOME
-          else
-            exit 1
-          fi
+#          rsync $HOME $PIPELINE_COMPOSE_ENVIRONMENT-$REPOSITORY_NAME/.env
+#          if [[ "$?" -eq 0 ]]; then
+#            rm -rf $HOME
+#          else
+#            exit 1
+#          fi
           ##
           ## Setup AWS ECR authentication
           ##
