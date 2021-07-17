@@ -103,7 +103,6 @@ jobs:
           ##
           DEV_DOCKER_ENV_SIMPLE_KEY=${{ env.DEV_DOCKER_ENV_SIMPLE_KEY }}
           echo $DEV_DOCKER_ENV_SIMPLE_KEY >> $HOME
-
           ##
           ## Deploy environment configure
           ##
@@ -145,4 +144,3 @@ jobs:
               rm -rf "${REPOSITORY_NAME}"
             fi
           fi
-
