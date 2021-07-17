@@ -61,7 +61,7 @@ jobs:
       id: deploy
       env:
         ##
-        ## PIPELINES ENV
+        ## PIPELINES ENV CONFIGURE
         ##
         REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
         REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
@@ -71,9 +71,10 @@ jobs:
         AWS_REGION: ${{ secrets.AWS_REGION }}
         HOME: ${{ secrets.HOME }}
         ##
-        ## DOCKER ENV
+        ## PIPELNES DOCKER ENV
         ##
         DEV_DOCKER_ENV_SIMPLE_KEY: ${{ secrets.DEV_DOCKER_ENV_SIMPLE_KEY }}
+        DEV_DOCKER_ENV_SIMPLE_KEY_1: ${{ secrets.DEV_DOCKER_ENV_SIMPLE_KEY_1 }}
       with:
         host: ${{ env.REMOTE_HOST }}
         username: ${{ env.REMOTE_USER }}
@@ -82,14 +83,13 @@ jobs:
         script: |
           set -e
           ##
-          ## PASS ENVIRONMENT VARIABLE CONFIGURES
+          ## PASS PIPELINE ENV CONFIGURES
           ##
           REPOSITORY_NAME=${{ env.GITHUB_REPOSITORY_NAME }}
           BRANCH_NAME=${{ env.GITHUB_BRANCH }}
           ACTIONS=${{ env.GITHUB_ACTIONS }}
           AWS_ACCOUNT_ID=${{ env.AWS_ACCOUNT_ID }}
           AWS_REGION=${{ env.AWS_REGION }}
-          HOME=${{ env.HOME }}
           ##
           ## Setup Pipeline Compose Environment
           ##
@@ -102,7 +102,9 @@ jobs:
           ## PASS DOCKER ENV
           ##
           DEV_DOCKER_ENV_SIMPLE_KEY=${{ env.DEV_DOCKER_ENV_SIMPLE_KEY }}
+          DEV_DOCKER_ENV_SIMPLE_KEY_1=${{ env.DEV_DOCKER_ENV_SIMPLE_KEY_1 }}
           echo $DEV_DOCKER_ENV_SIMPLE_KEY >> .env
+          echo $DEV_DOCKER_ENV_SIMPLE_KEY_1 >> .env
           ##
           ## Deploy environment configure
           ##
