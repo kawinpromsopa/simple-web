@@ -69,6 +69,7 @@ jobs:
         DEPLOY_KEY: ${{ secrets.DEPLOY_PRIVATE_KEY }}
         AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
         AWS_REGION: ${{ secrets.AWS_REGION }}
+        HOME: ${{ secrets.HOME }}
         ##
         ## DOCKER ENV
         ##
@@ -88,6 +89,7 @@ jobs:
           ACTIONS=${{ env.GITHUB_ACTIONS }}
           AWS_ACCOUNT_ID=${{ env.AWS_ACCOUNT_ID }}
           AWS_REGION=${{ env.AWS_REGION }}
+          HOME=${{ env.HOME }}
           ##
           ## Setup Pipeline Compose Environment
           ##
@@ -100,7 +102,17 @@ jobs:
           ## PASS DOCKER ENV
           ##
           DEV_DOCKER_ENV_SIMPLE_KEY=${{ env.DEV_DOCKER_ENV_SIMPLE_KEY }}
-          echo $DEV_DOCKER_ENV_SIMPLE_KEY >> /home/ubuntu/$PIPELINE_COMPOSE_ENVIRONMENT-$REPOSITORY_NAME/.env
+          echo $DEV_DOCKER_ENV_SIMPLE_KEY >> $HOME
+
+          ##
+          ## Deploy environment configure
+          ##
+          rsync $HOME $PIPELINE_COMPOSE_ENVIRONMENT-$REPOSITORY_NAME/.env
+          if [[ "$?" -eq 0 ]]; then
+            rm -rf $HOME
+          else
+            exit 1
+          fi
           ##
           ## Setup AWS ECR authentication
           ##
