@@ -22,13 +22,13 @@ Value: SIMPLE_KEY=simple-value
 ```
 eg:
 Name: DEV_DOCKER_ENV_NEXT_PUBLIC_S3_HOST
-Value: NEXT_PUBLIC_S3_HOST=s3://simple-url
+Value: NEXT_PUBLIC_S3_HOST=s3://simple-s3-url
 ```
 
 ##### Update
 - 1). On repository `[Settings]` => `Secrets` => Choose exist repository secrets => Update => Type new value
 
-**NOTE: Github can't change the `KEY` of secret name, If you want to change just delete and add new one.
+**NOTE:** Github can't change the `KEY` of secret name, If you want to change just delete and add new one.
 
 ### 2). Add or update docker env
 
