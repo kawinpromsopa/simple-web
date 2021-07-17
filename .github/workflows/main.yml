@@ -1,4 +1,4 @@
-name: Prod - rt-web's Workflow.
+name: Prod - simple-web's Workflow.
 
 on:
   push:
@@ -46,9 +46,7 @@ jobs:
         docker push $AWS_ECR_REGISTRY/$AWS_ECR_REPOSITORY:$DOCKER_IMAGE_TAG_ENV-$DOCKER_IMAGE_TAG_ENV_COMMIT 
 
   deploy_application:
-    needs: build_n_push 
     runs-on: ubuntu-latest
-
     steps:
     - name: Setup environment variables 
       run: |
@@ -62,17 +60,88 @@ jobs:
       uses: appleboy/ssh-action@master
       id: deploy
       env:
+        ##
+        ## PIPELINES ENV CONFIGURE
+        ##
         REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
         REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
         REMOTE_USER: ${{ secrets.REMOTE_USER }}
         DEPLOY_KEY: ${{ secrets.DEPLOY_PRIVATE_KEY }}
         AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
         AWS_REGION: ${{ secrets.AWS_REGION }}
+        HOME: ${{ secrets.HOME }}
+        ##
+        ## PIPELNES DOCKER ENV
+        ##
+        DOCKER_ENV_SIMPLE_KEY_1: ${{ secrets.DEV_DOCKER_ENV_SIMPLE_KEY_1 }}
+        DOCKER_ENV_SIMPLE_KEY_2: ${{ secrets.DEV_DOCKER_ENV_SIMPLE_KEY_2 }}
+        DOCKER_ENV_SIMPLE_KEY_3: ${{ secrets.DEV_DOCKER_ENV_SIMPLE_KEY_3 }}
       with:
         host: ${{ env.REMOTE_HOST }}
         username: ${{ env.REMOTE_USER }}
         port: ${{ env.REMOTE_PORT }}
         key: ${{ env.DEPLOY_KEY }}
         script: |
-          git clone git@github.com:kokaowoat/${{env.GITHUB_REPOSITORY_NAME }}.git --branch ${{ env.GITHUB_BRANCH }}
-          bash ${{env.GITHUB_REPOSITORY_NAME }}/.github/deploy.sh ${{ env.GITHUB_ACTIONS }} ${{env.GITHUB_REPOSITORY_NAME }} ${{ env.GITHUB_BRANCH }} ${{ env.AWS_ACCOUNT_ID }} ${{ env.AWS_REGION }}
+          set -e
+          ##
+          ## PASS PIPELINE ENV CONFIGURES
+          ##
+          REPOSITORY_NAME=${{ env.GITHUB_REPOSITORY_NAME }}
+          BRANCH_NAME=${{ env.GITHUB_BRANCH }}
+          ACTIONS=${{ env.GITHUB_ACTIONS }}
+          AWS_ACCOUNT_ID=${{ env.AWS_ACCOUNT_ID }}
+          AWS_REGION=${{ env.AWS_REGION }}
+          ##
+          ## Setup Pipeline Compose Environment
+          ##
+          if [[ "${BRANCH_NAME}" =~ ^(develop)$ ]]; then
+            PIPELINE_COMPOSE_ENVIRONMENT=dev
+          elif  [[ "${BRANCH_NAME}" =~ ^(main)$ ]]; then
+            PIPELINE_COMPOSE_ENVIRONMENT=prod
+          fi
+          ##
+          ## PASS DOCKER ENV
+          ##
+          DOCKER_ENV_SIMPLE_KEY_1=${{ env.DOCKER_ENV_SIMPLE_KEY_1 }}
+          DOCKER_ENV_SIMPLE_KEY_2=${{ env.DOCKER_ENV_SIMPLE_KEY_2 }}
+          DOCKER_ENV_SIMPLE_KEY_3=${{ env.DOCKER_ENV_SIMPLE_KEY_3 }}
+          echo $DOCKER_ENV_SIMPLE_KEY_1 >> .env
+          echo $DOCKER_ENV_SIMPLE_KEY_2 >> .env
+          echo $DOCKER_ENV_SIMPLE_KEY_3 >> .env
+          ##
+          ## Deploy environment configure
+          ##
+          rsync .env $PIPELINE_COMPOSE_ENVIRONMENT-$REPOSITORY_NAME/.env
+          if [[ "$?" -eq 0 ]]; then
+            rm -rf .env
+          else
+            exit 1
+          fi
+          ##
+          ## Setup AWS ECR authentication
+          ##
+          aws ecr get-login-password --region "${AWS_REGION}" | docker login --username AWS --password-stdin "${AWS_ACCOUNT_ID}".dkr.ecr.ap-southeast-1.amazonaws.com
+          if [[ "$?" -eq 0 ]]; then
+            echo "AWS Elastic Container Registry Authenticated."
+          else
+            echo "AWS Elastic Container Registry Authenticate FAILED!."
+            exit 1
+          fi
+          ##
+          ## Deploy Application
+          ##
+          if [[ "${ACTIONS}" == true ]]; then
+            echo "Docker Image Latest Version Downloading..."
+            docker-compose -f "${PIPELINE_COMPOSE_ENVIRONMENT}"-simple-web/docker-compose.yml pull
+            echo "Docker Image Latest Version Download Success."
+            echo "Application Deploying..."
+            docker-compose -f "${PIPELINE_COMPOSE_ENVIRONMENT}"-simple-web/docker-compose.yml up -d
+          
+            if [[ "$?" -eq 0 ]]; then
+              echo "Application Deployed.."
+              rm -rf "${REPOSITORY_NAME}"
+            else
+              echo "Application FAILED."
+              rm -rf "${REPOSITORY_NAME}"
+            fi
+          fi
